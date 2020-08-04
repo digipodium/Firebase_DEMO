@@ -27,7 +27,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class GalleryFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
     private ProgressBar pbar;
     private FloatingActionButton fabSave;
     private EditText editName;
@@ -45,11 +44,24 @@ public class GalleryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fabSave = view.findViewById(R.id.fabSave);
-        pbar = view.findViewById(R.id.pbar);
+        pbar = view.findViewById(R.id.pBar);
         editName = view.findViewById(R.id.editName);
         editDesc = view.findViewById(R.id.editDesc);
         db = FirebaseFirestore.getInstance();
 
+        if (getArguments() != null) {
+            GalleryFragmentArgs args = GalleryFragmentArgs.fromBundle(getArguments());
+            String name = args.getName();
+            String desc = args.getDescription();
+            if (!name.equals("Null")) {
+                editName.setText(name);
+            }
+
+            if (!desc.equals("Null")) {
+                editDesc.setText(desc);
+            }
+
+        }
         fabSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
